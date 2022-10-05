@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
+import { postSignIn, postSignUp } from '../api';
 
 const LoginLayout = styled.section`
   width: 30rem;
@@ -50,11 +51,6 @@ const SubmitBtn = styled.button`
 `;
 
 function Login(props) {
-  const loginEmailRef = useRef();
-  const loginPasswordRef = useRef();
-  const registerEmailRef = useRef();
-  const registerPasswordRef = useRef();
-
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
@@ -68,6 +64,8 @@ function Login(props) {
     isEmailValid: false,
     isPasswordValid: false,
   });
+
+  const [errorText, setErrorText] = useState('');
 
   const handleLoginChange = (e) => {
     const { name, value } = e.currentTarget;
@@ -85,25 +83,31 @@ function Login(props) {
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setRegisterInfo((prev) => {
-      const obj = {
+      return {
         ...prev,
         [name]: value,
         isEmailValid: name == 'email' ? value.includes('@') : prev.isEmailValid,
         isPasswordValid:
           name == 'password' ? value.length >= 8 : prev.isPasswordValid,
       };
-      console.log(obj);
-      return obj;
     });
   };
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+    const { email, password } = registerInfo;
+    postSignIn({
+      email,
+      password,
+    });
   };
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+    const { email, password } = registerInfo;
+    postSignUp({
+      email,
+      password,
+    });
   };
 
   return (
@@ -113,7 +117,6 @@ function Login(props) {
         <div>
           <label htmlFor='login-email'>Email</label>
           <LoginInput
-            ref={loginEmailRef}
             name='email'
             onChange={handleLoginChange}
             id='login-email'
@@ -123,7 +126,6 @@ function Login(props) {
         <div>
           <label htmlFor='login-password'>Password</label>
           <LoginInput
-            ref={loginPasswordRef}
             name='password'
             onChange={handleLoginChange}
             id='login-password'
@@ -142,7 +144,6 @@ function Login(props) {
         <div>
           <label htmlFor='register-email'>Email</label>
           <RegisterInput
-            ref={registerEmailRef}
             onChange={handleRegisterChange}
             placeholder='아이디를 입력해주세요'
             id='register-email'
@@ -152,13 +153,13 @@ function Login(props) {
         <div>
           <label htmlFor='register-password'>Password</label>
           <RegisterInput
-            ref={registerPasswordRef}
             onChange={handleRegisterChange}
             placeholder='비밀번호를 입력해주세요'
             id='register-password'
             name='password'
           ></RegisterInput>
         </div>
+        {errorText && <span>{errorText}</span>}
         <SubmitBtn
           disabled={
             !(registerInfo.isEmailValid && registerInfo.isPasswordValid)
