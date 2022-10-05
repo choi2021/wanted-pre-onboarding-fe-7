@@ -11,7 +11,7 @@ export function postSignUp(data) {
       email,
       password,
     }),
-  }).then(console.log);
+  });
 }
 
 export function postSignIn(data) {

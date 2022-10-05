@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { postSignIn, postSignUp } from '../api';
 
@@ -50,7 +51,13 @@ const SubmitBtn = styled.button`
   cursor: pointer;
 `;
 
+const Message = styled.div`
+  color: ${(props) => (props.success ? 'white' : 'red')};
+  margin-bottom: 0.5em;
+`;
+
 function Login(props) {
+  const navigate = useNavigate('/');
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
@@ -65,7 +72,12 @@ function Login(props) {
     isPasswordValid: false,
   });
 
-  const [errorText, setErrorText] = useState('');
+  const [message, setMessage] = useState({
+    loginMessage: '',
+    registerMessage: '',
+    loginSuccess: false,
+    registerSuccess: false,
+  });
 
   const handleLoginChange = (e) => {
     const { name, value } = e.currentTarget;
@@ -99,15 +111,49 @@ function Login(props) {
     postSignIn({
       email,
       password,
-    });
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.statusCode >= 400) {
+          setMessage((prev) => {
+            return {
+              ...prev,
+              registerMessage: data.message,
+              registerSuccess: false,
+            };
+          });
+          return;
+        }
+      });
   };
+
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
     const { email, password } = registerInfo;
     postSignUp({
       email,
       password,
-    });
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.statusCode >= 400) {
+          setMessage((prev) => {
+            return {
+              ...prev,
+              registerMessage: data.message,
+              registerSuccess: false,
+            };
+          });
+          return;
+        }
+        setMessage((prev) => {
+          return {
+            ...prev,
+            registerMessage: '회원가입에 성공했습니다',
+            registerSuccess: true,
+          };
+        });
+      });
   };
 
   return (
@@ -132,6 +178,11 @@ function Login(props) {
             placeholder='비밀번호를 입력해주세요'
           ></LoginInput>
         </div>
+        {message.loginMessage && (
+          <Message success={message.loginSuccess}>
+            {message.loginMessage}
+          </Message>
+        )}
         <SubmitBtn
           onSubmit={handleLoginSubmit}
           disabled={!(loginInfo.isEmailValid && loginInfo.isPasswordValid)}
@@ -159,7 +210,11 @@ function Login(props) {
             name='password'
           ></RegisterInput>
         </div>
-        {errorText && <span>{errorText}</span>}
+        {message.registerMessage && (
+          <Message success={message.registerSuccess}>
+            {message.registerMessage}
+          </Message>
+        )}
         <SubmitBtn
           disabled={
             !(registerInfo.isEmailValid && registerInfo.isPasswordValid)
