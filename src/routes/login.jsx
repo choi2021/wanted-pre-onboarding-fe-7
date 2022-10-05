@@ -107,23 +107,34 @@ function Login(props) {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = registerInfo;
+    const { email, password } = loginInfo;
     postSignIn({
       email,
       password,
     })
       .then((response) => response.json())
       .then((data) => {
+        let loginMessage = '';
         if (data.statusCode >= 400) {
+          if (data.statusCode === 401) {
+            loginMessage = '유효하지 않은 이메일입니다';
+          }
           setMessage((prev) => {
             return {
               ...prev,
-              registerMessage: data.message,
-              registerSuccess: false,
+              loginMessage,
+              loginSuccess: false,
             };
           });
           return;
         }
+        setMessage((prev) => {
+          return {
+            ...prev,
+            loginMessage: '로그인에 성공했습니다',
+            loginSuccess: true,
+          };
+        });
       });
   };
 

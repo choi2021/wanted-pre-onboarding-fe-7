@@ -25,5 +25,5 @@ export function postSignIn(data) {
       email,
       password,
     }),
-  }).then(console.log);
+  });
 }
