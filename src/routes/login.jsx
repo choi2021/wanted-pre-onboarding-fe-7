@@ -128,6 +128,8 @@ function Login(props) {
           });
           return;
         }
+        navigate('/todo');
+        localStorage.setItem('loginToken', data.access_token);
         setMessage((prev) => {
           return {
             ...prev,
