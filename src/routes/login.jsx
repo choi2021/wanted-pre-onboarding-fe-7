@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { postSignIn, postSignUp } from '../api';
 
 const LoginLayout = styled.section`
-  width: 30rem;
+  max-width: 30rem;
   margin: auto;
   height: 100%;
   background-color: lightblue;
@@ -116,9 +116,7 @@ function Login(props) {
       .then((data) => {
         let loginMessage = '';
         if (data.statusCode >= 400) {
-          if (data.statusCode === 401) {
-            loginMessage = '유효하지 않은 이메일입니다';
-          }
+          loginMessage = data.message;
           setMessage((prev) => {
             return {
               ...prev,
