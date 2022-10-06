@@ -127,7 +127,7 @@ function Login(props) {
           return;
         }
         navigate('/todo');
-        localStorage.setItem('loginToken', data.access_token);
+        localStorage.setItem('access_token', data.access_token);
         setMessage((prev) => {
           return {
             ...prev,

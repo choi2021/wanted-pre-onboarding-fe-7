@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { deleteTodo, getTodos, postCreateTodo } from '../api';
 import TodoItem from '../components/todo_Item';
 
 const TodoLayout = styled.section`
@@ -12,33 +13,36 @@ const TodoLayout = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   header {
-    position: absolute;
-    top: 2em;
     font-size: 2rem;
+    flex: 20%;
   }
 `;
 
+const TodoContent = styled.div`
+  width: 100%;
+  flex: 80%;
+`;
+
 const TodoForm = styled.form`
-  position: relative;
-  top: -5rem;
   width: 100%;
   display: flex;
+  align-items: center;
+  margin: 2em 0;
+  height: 3rem;
   input {
+    height: 100%;
     border: none;
     outline: none;
-    padding: 0.5em 1em;
     font-size: 1.1rem;
     text-align: center;
     flex: 80%;
-    border-radius: 0.5em;
+    border-top-left-radius: 0.5em;
+    border-bottom-left-radius: 0.5em;
   }
   button {
     flex: 20%;
     height: 100%;
-    position: absolute;
-    right: 0;
     background-color: lightcoral;
     color: white;
     font-size: 0.9rem;
@@ -52,38 +56,50 @@ const TodoList = styled.ul`
   width: 100%;
 `;
 
-function Todo(props) {
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      todo: '과제하기',
-      isCompleted: false,
-      userId: 1,
-    },
-    {
-      id: 2,
-      todo: '과제하기',
-      isCompleted: false,
-      userId: 1,
-    },
-  ]);
+function Todo() {
+  const inputRef = useRef();
+  const [todos, setTodos] = useState([]);
 
+  useEffect(() => {
+    getTodos()
+      .then((res) => res.json())
+      .then((data) => setTodos(data));
+  }, []);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const value = inputRef.current.value;
+    if (!value) {
+      return;
+    }
+    postCreateTodo(value)
+      .then((res) => res.json())
+      .then((data) => setTodos((prev) => [...prev, data]));
+    inputRef.current.value = '';
+  };
+
+  const onDelete = (id) => {
+    deleteTodo(id);
+  };
   return (
     <TodoLayout>
       <header>TO DO</header>
-      <TodoForm>
-        <input
-          type='text'
-          id='todoInput'
-          placeholder='오늘의 할 일을 입력해주세요'
-        />
-        <button>Add</button>
-      </TodoForm>
-      <TodoList>
-        {todos.map((todo) => (
-          <TodoItem key={todo.id} {...todo}></TodoItem>
-        ))}
-      </TodoList>
+      <TodoContent>
+        <TodoForm onSubmit={onSubmit}>
+          <input
+            ref={inputRef}
+            type='text'
+            id='todoInput'
+            placeholder='오늘의 할 일을 입력해주세요'
+          />
+          <button>Add</button>
+        </TodoForm>
+        <TodoList>
+          {todos.map((todo) => (
+            <TodoItem key={todo.id} {...todo} onDelete={onDelete}></TodoItem>
+          ))}
+        </TodoList>
+      </TodoContent>
     </TodoLayout>
   );
 }

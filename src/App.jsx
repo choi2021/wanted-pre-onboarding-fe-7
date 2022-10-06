@@ -6,16 +6,14 @@ import Todo from './routes/todo';
 
 function App() {
   const navigate = useNavigate();
-  const [token, setToken] = useState('');
   useEffect(() => {
-    const prevToken = localStorage.getItem('loginToken');
-    prevToken && setToken(prevToken);
+    const token = localStorage.getItem('access_token');
     if (token) {
       navigate('/todo');
     } else {
       navigate('/');
     }
-  }, [token]);
+  }, []);
   return (
     <Routes>
       <Route path='/' element={<Login></Login>}></Route>
