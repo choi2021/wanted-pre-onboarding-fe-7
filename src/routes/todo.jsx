@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { deleteTodo, getTodos, postCreateTodo } from '../api';
+import { deleteTodo, getTodos, postCreateTodo, updateTodos } from '../api';
 import TodoItem from '../components/todo_Item';
 
 const TodoLayout = styled.section`
-  max-width: 30rem;
+  max-width: 40rem;
   padding: 1em;
   margin: auto;
   height: 100%;
@@ -79,7 +79,20 @@ function Todo() {
   };
 
   const onDelete = (id) => {
+    setTodos((prev) => prev.filter((todo) => todo.id != id));
     deleteTodo(id);
+  };
+
+  const onUpdate = (todo) => {
+    setTodos((prev) =>
+      prev.map((item) => {
+        if (item.id === todo.id) {
+          return todo;
+        }
+        return item;
+      })
+    );
+    updateTodos(todo);
   };
   return (
     <TodoLayout>
@@ -95,8 +108,13 @@ function Todo() {
           <button>Add</button>
         </TodoForm>
         <TodoList>
-          {todos.map((todo) => (
-            <TodoItem key={todo.id} {...todo} onDelete={onDelete}></TodoItem>
+          {todos.map((item) => (
+            <TodoItem
+              key={item.id}
+              todoItem={item}
+              onUpdate={onUpdate}
+              onDelete={onDelete}
+            ></TodoItem>
           ))}
         </TodoList>
       </TodoContent>

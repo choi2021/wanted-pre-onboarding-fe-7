@@ -51,11 +51,25 @@ export function getTodos() {
   });
 }
 
+export function updateTodos(obj) {
+  const { todo, isCompleted } = obj;
+  return fetch(`${BASE_URL}/todos/${obj.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    },
+    body: JSON.stringify({
+      todo,
+      isCompleted,
+    }),
+  });
+}
+
 export function deleteTodo(id) {
   return fetch(`${BASE_URL}/todos/${id}`, {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     },
   });

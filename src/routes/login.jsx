@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { postSignIn, postSignUp } from '../api';
 
 const LoginLayout = styled.section`
-  max-width: 30rem;
+  max-width: 40rem;
   margin: auto;
   height: 100%;
   background-color: lightblue;
@@ -19,6 +19,9 @@ const LoginForm = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  h1 {
+    font-size: 2rem;
+  }
   label {
     font-size: 1.2rem;
     margin-bottom: 0.3em;
