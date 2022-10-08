@@ -1,8 +1,8 @@
 const BASE_URL = 'https://pre-onboarding-selection-task.shop';
 
-export function postSignUp(data) {
+export async function postSignUp(data) {
   const { email, password } = data;
-  return fetch(`${BASE_URL}/auth/signup`, {
+  const response = await fetch(`${BASE_URL}/auth/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -12,11 +12,12 @@ export function postSignUp(data) {
       password,
     }),
   });
+  return await response.json();
 }
 
-export function postSignIn(data) {
+export async function postSignIn(data) {
   const { email, password } = data;
-  return fetch(`${BASE_URL}/auth/signin`, {
+  const response = await fetch(`${BASE_URL}/auth/signin`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -26,6 +27,7 @@ export function postSignIn(data) {
       password,
     }),
   });
+  return await response.json();
 }
 
 export function postCreateTodo(todo) {

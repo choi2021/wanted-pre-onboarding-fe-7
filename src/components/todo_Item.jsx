@@ -58,7 +58,7 @@ function TodoItem({
   onUpdate,
 }) {
   const inputRef = useRef();
-  const [isModified, setIsModified] = useState(false);
+  const [onModifyMode, setOnModifyMode] = useState(false);
   const [updated, setUpdated] = useState(todoItem);
 
   const onClick = (e) => {
@@ -66,7 +66,7 @@ function TodoItem({
     if (name === 'cancel') {
       inputRef.current.value = ``;
     }
-    setIsModified((prev) => !prev);
+    setOnModifyMode((prev) => !prev);
   };
 
   const handleDelete = () => {
@@ -89,20 +89,20 @@ function TodoItem({
   const handleSubmit = () => {
     onUpdate({ ...updated, todo: inputRef.current.value });
     inputRef.current.value = ``;
-    setIsModified((prev) => !prev);
+    setOnModifyMode((prev) => !prev);
   };
 
   return (
     <TodoLayout>
       <LeftBox>
-        {!isModified && <div>{todo}</div>}
-        {isModified && (
+        {!onModifyMode && <div>{todo}</div>}
+        {onModifyMode && (
           <input placeholder='여기에 작성해주세요' ref={inputRef}></input>
         )}
       </LeftBox>
 
       <RightBox>
-        {!isModified && (
+        {!onModifyMode && (
           <>
             <TodoBtn>{isCompleted ? 'Completed🙆‍♀️' : 'Not yet 🙅‍♂️'}</TodoBtn>
             <TodoBtn name='modify' onClick={onClick}>
@@ -110,7 +110,7 @@ function TodoItem({
             </TodoBtn>
           </>
         )}
-        {isModified && (
+        {onModifyMode && (
           <div>
             <CompleteBtn
               name='complete'
@@ -128,7 +128,7 @@ function TodoItem({
             </CompleteBtn>
           </div>
         )}
-        {isModified && (
+        {onModifyMode && (
           <>
             <TodoBtn name='cancel' onClick={onClick}>
               취소하기

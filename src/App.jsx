@@ -1,8 +1,8 @@
 import './App.css';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import Login from './routes/login';
 import { useEffect, useState } from 'react';
 import Todo from './routes/todo';
+import Auth from './routes/auth';
 
 function App() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function App() {
   }, []);
   return (
     <Routes>
-      <Route path='/' element={<Login></Login>}></Route>
+      <Route path='/' element={<Auth></Auth>}></Route>
       <Route path='/todo' element={<Todo></Todo>}></Route>
     </Routes>
   );
