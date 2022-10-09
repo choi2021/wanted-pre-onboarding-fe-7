@@ -1,55 +1,5 @@
 import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
-
-const TodoLayout = styled.li`
-  width: 100%;
-  height: 100%;
-  padding: 0.5em 1em;
-  display: flex;
-  background-color: white;
-  border-radius: 0.5em;
-  color: black;
-  align-items: center;
-  font-size: 1rem;
-  margin-bottom: 0.5em;
-
-  input {
-    border: none;
-    outline: none;
-  }
-`;
-
-const LeftBox = styled.div`
-  flex: 30%;
-  input {
-    font-size: 0.8rem;
-  }
-`;
-const RightBox = styled.div`
-  flex: 70%;
-  flex: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  div {
-    display: flex;
-    justify-content: center;
-  }
-`;
-
-const TodoBtn = styled.button`
-  height: 100%;
-  background-color: lightcoral;
-  color: white;
-  font-size: 0.7rem;
-  border-radius: 1em;
-  padding: 0.2em 0.5em;
-  margin-right: 0.2em;
-`;
-
-const CompleteBtn = styled(TodoBtn)`
-  background-color: ${(props) => (props.clicked ? 'coral' : 'lightcoral')};
-`;
+import S from './styles';
 
 function TodoItem({
   todoItem: { isCompleted, userId, id, todo },
@@ -93,54 +43,54 @@ function TodoItem({
   };
 
   return (
-    <TodoLayout>
-      <LeftBox>
+    <S.TodoLayout>
+      <S.LeftBox>
         {!onModifyMode && <div>{todo}</div>}
         {onModifyMode && (
           <input placeholder='여기에 작성해주세요' ref={inputRef}></input>
         )}
-      </LeftBox>
+      </S.LeftBox>
 
-      <RightBox>
+      <S.RightBox>
         {!onModifyMode && (
           <>
-            <TodoBtn>{isCompleted ? 'Completed🙆‍♀️' : 'Not yet 🙅‍♂️'}</TodoBtn>
-            <TodoBtn name='modify' onClick={onClick}>
+            <S.TodoBtn>{isCompleted ? 'Completed🙆‍♀️' : 'Not yet 🙅‍♂️'}</S.TodoBtn>
+            <S.TodoBtn name='modify' onClick={onClick}>
               수정하기
-            </TodoBtn>
+            </S.TodoBtn>
           </>
         )}
         {onModifyMode && (
           <div>
-            <CompleteBtn
+            <S.CompleteBtn
               name='complete'
               clicked={updated.isCompleted}
               onClick={handleCompleteUpdate}
             >
               Completed🙆‍♀️
-            </CompleteBtn>
-            <CompleteBtn
+            </S.CompleteBtn>
+            <S.CompleteBtn
               name='not yet'
               clicked={!updated.isCompleted}
               onClick={handleCompleteUpdate}
             >
               Not yet 🙅‍♂️
-            </CompleteBtn>
+            </S.CompleteBtn>
           </div>
         )}
         {onModifyMode && (
           <>
-            <TodoBtn name='cancel' onClick={onClick}>
+            <S.TodoBtn name='cancel' onClick={onClick}>
               취소하기
-            </TodoBtn>
-            <TodoBtn name='submit' onClick={handleSubmit}>
+            </S.TodoBtn>
+            <S.TodoBtn name='submit' onClick={handleSubmit}>
               제출하기
-            </TodoBtn>
+            </S.TodoBtn>
           </>
         )}
-        <TodoBtn onClick={handleDelete}>삭제하기</TodoBtn>
-      </RightBox>
-    </TodoLayout>
+        <S.TodoBtn onClick={handleDelete}>삭제하기</S.TodoBtn>
+      </S.RightBox>
+    </S.TodoLayout>
   );
 }
 

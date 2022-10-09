@@ -1,10 +1,9 @@
-import './App.css';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Todo from './pages/todo';
-import Auth from './pages/auth';
+import { useEffect } from 'react';
+import Todo from './pages/todo/todo';
+import Auth from './pages/auth/auth';
 
-function App() {
+function Router() {
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -22,4 +21,4 @@ function App() {
   );
 }
 
-export default App;
+export default Router;

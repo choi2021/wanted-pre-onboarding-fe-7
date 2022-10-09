@@ -1,18 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { postSignIn, postSignUp } from '../api';
-import AuthForm from '../components/auth_form';
-
-const AuthLayout = styled.section`
-  max-width: 40rem;
-  margin: auto;
-  height: 100%;
-  background-color: lightblue;
-  color: white;
-  display: flex;
-  flex-direction: column;
-`;
+import { postSignIn, postSignUp } from '../../api';
+import AuthForm from '../../components/auth_form/auth_form';
+import S from './styles';
 
 function Auth() {
   const navigate = useNavigate('/');
@@ -92,7 +82,7 @@ function Auth() {
   };
 
   return (
-    <AuthLayout>
+    <S.AuthLayout>
       <AuthForm
         process={'login'}
         onSubmit={handleSubmit}
@@ -112,7 +102,7 @@ function Auth() {
         info={registerInfo}
         setInfo={setRegisterInfo}
       ></AuthForm>
-    </AuthLayout>
+    </S.AuthLayout>
   );
 }
 
