@@ -1,8 +1,8 @@
 import './App.css';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Todo from './routes/todo';
-import Auth from './routes/auth';
+import Todo from './pages/todo';
+import Auth from './pages/auth';
 
 function App() {
   const navigate = useNavigate();

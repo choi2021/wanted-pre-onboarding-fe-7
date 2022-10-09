@@ -81,14 +81,14 @@ function AuthForm({
           placeholder='비밀번호를 입력해주세요'
         ></AuthInput>
       </div>
-      {message.loginMessage && (
-        <Message success={message.loginSuccess}>{message.loginMessage}</Message>
+      {message.message && (
+        <Message success={message.success}>{message.message}</Message>
       )}
       <SubmitBtn
         onSubmit={handleSubmit}
         disabled={!(info.isEmailValid && info.isPasswordValid)}
       >
-        Login
+        {process === 'login' ? '로그인' : '회원가입'}
       </SubmitBtn>
     </AuthFormLayout>
   );

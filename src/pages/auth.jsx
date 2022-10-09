@@ -31,18 +31,18 @@ function Auth() {
   });
 
   const [registerMessage, setRegisterMessage] = useState({
-    registerMessage: '',
-    registerSuccess: false,
+    message: '',
+    success: false,
   });
 
   const [loginMessage, setLoginMessage] = useState({
-    loginMessage: '',
-    loginSuccess: false,
+    message: '',
+    success: false,
   });
 
-  const handleChange = (e, fn) => {
+  const handleChange = (e, setInfo) => {
     const { name, value } = e.currentTarget;
-    fn((prev) => {
+    setInfo((prev) => {
       return {
         ...prev,
         [name]: value,
@@ -54,14 +54,12 @@ function Auth() {
   };
 
   const exceptionTest = (data, setMessage, process) => {
-    let message = '';
     if (data.statusCode >= 400) {
-      message = data.message;
       setMessage((prev) => {
         return {
           ...prev,
-          [`${process}Message`]: message,
-          [`${process}Success`]: false,
+          message: data.message,
+          success: false,
         };
       });
       return;
@@ -73,8 +71,8 @@ function Auth() {
     setMessage((prev) => {
       return {
         ...prev,
-        [`${process}Message`]: `${process}에 성공했습니다`,
-        [`${process}Success`]: true,
+        message: `${'login' ? '로그인' : '회원가입'}에 성공했습니다`,
+        success: true,
       };
     });
   };
@@ -84,6 +82,10 @@ function Auth() {
     const obj = { email, password };
     if (process == 'login') {
       postSignIn(obj).then((data) => {
+        exceptionTest(data, setMessage, process);
+      });
+    } else {
+      postSignUp(obj).then((data) => {
         exceptionTest(data, setMessage, process);
       });
     }
