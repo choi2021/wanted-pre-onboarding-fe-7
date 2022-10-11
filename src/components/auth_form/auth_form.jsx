@@ -11,9 +11,12 @@ function AuthForm({
   info,
   setInfo,
 }) {
-  const handleChange = useCallback((e) => {
-    onChange(e, setInfo);
-  }, []);
+  const handleChange = useCallback(
+    (e) => {
+      onChange(e, setInfo);
+    },
+    [onChange, setInfo]
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();

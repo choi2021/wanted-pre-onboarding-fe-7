@@ -44,52 +44,60 @@ function Auth() {
     });
   }, []);
 
-  const exceptionTest = useCallback((data, setMessage, process) => {
-    let result = { message: '', success: false };
-    if (data.statusCode >= 400) {
-      if (data.statusCode === 401) {
-        result = {
-          message: '이메일 혹은 비밀번호를 확인해주세요.',
-          success: false,
-        };
+  const exceptionTest = useCallback(
+    (data, setMessage, process) => {
+      let result = { message: '', success: false };
+      if (data.statusCode >= 400) {
+        if (data.statusCode === 401) {
+          result = {
+            message: '이메일 혹은 비밀번호를 확인해주세요.',
+            success: false,
+          };
+        } else {
+          result = {
+            message: data.message,
+            success: false,
+          };
+        }
       } else {
+        if (process === 'login') {
+          navigate('/todo');
+          localStorage.setItem('access_token', data.access_token);
+        }
         result = {
-          message: data.message,
-          success: false,
+          message: `${
+            process === 'login' ? '로그인' : '회원가입'
+          }에 성공했습니다`,
+          success: true,
         };
       }
-    } else {
+
+      setMessage((prev) => {
+        return {
+          ...prev,
+          ...result,
+        };
+      });
+    },
+    [navigate]
+  );
+
+  const handleSubmit = useCallback(
+    (info, process, setMessage) => {
+      const { email, password } = info;
+      const obj = { email, password };
       if (process === 'login') {
-        navigate('/todo');
-        localStorage.setItem('access_token', data.access_token);
+        postSignIn(obj).then((data) => {
+          exceptionTest(data, setMessage, process);
+        });
+      } else {
+        postSignUp(obj).then((data) => {
+          exceptionTest(data, setMessage, process);
+        });
       }
-      result = {
-        message: `${process == 'login' ? '로그인' : '회원가입'}에 성공했습니다`,
-        success: true,
-      };
-    }
-
-    setMessage((prev) => {
-      return {
-        ...prev,
-        ...result,
-      };
-    });
-  }, []);
-
-  const handleSubmit = useCallback((info, process, setMessage) => {
-    const { email, password } = info;
-    const obj = { email, password };
-    if (process === 'login') {
-      postSignIn(obj).then((data) => {
-        exceptionTest(data, setMessage, process);
-      });
-    } else {
-      postSignUp(obj).then((data) => {
-        exceptionTest(data, setMessage, process);
-      });
-    }
-  }, []);
+    },
+    [exceptionTest]
+  );
 
   return (
     <S.AuthLayout>

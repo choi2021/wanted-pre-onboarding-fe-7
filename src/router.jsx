@@ -12,7 +12,7 @@ function Router() {
     } else {
       navigate('/');
     }
-  }, []);
+  }, [navigate]);
   return (
     <Routes>
       <Route path='/' element={<Auth></Auth>}></Route>
