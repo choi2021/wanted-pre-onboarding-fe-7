@@ -2,13 +2,14 @@ import styled from 'styled-components';
 
 const TodoLayout = styled.li`
   width: 100%;
+  height: 3rem;
   padding: 0.5em 1em;
   display: flex;
   background-color: white;
   border-radius: 0.5em;
   color: black;
   align-items: center;
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin-bottom: 0.5em;
 
   input {
