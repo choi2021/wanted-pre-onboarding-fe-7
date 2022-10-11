@@ -11,7 +11,7 @@ import S from './styles';
 function Todo() {
   const inputRef = useRef();
   const [todos, setTodos] = useState([]);
-
+  const [isBlank, setIsBlank] = useState(false);
   useEffect(() => {
     getTodos().then((data) => setTodos(data));
   }, []);
@@ -20,10 +20,12 @@ function Todo() {
     e.preventDefault();
     const value = inputRef.current.value;
     if (!value) {
+      setIsBlank(true);
       return;
     }
     postCreateTodo(value).then((data) => setTodos((prev) => [...prev, data]));
     inputRef.current.value = '';
+    setIsBlank(false);
   };
 
   const onDelete = (id) => {
@@ -51,7 +53,11 @@ function Todo() {
             ref={inputRef}
             type='text'
             id='todoInput'
-            placeholder='오늘의 할 일을 입력해주세요'
+            placeholder={
+              isBlank
+                ? '내용이 비어있습니다.😅'
+                : '오늘의 투두를 작성해주세요😀'
+            }
           />
           <button>Add</button>
         </S.TodoForm>

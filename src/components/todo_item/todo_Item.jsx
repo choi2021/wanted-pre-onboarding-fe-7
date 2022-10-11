@@ -46,6 +46,7 @@ function TodoItem({
     onUpdate({ ...updated, todo });
     inputRef.current.value = ``;
     setOnModifyMode((prev) => !prev);
+    setIsBlank(false);
   };
 
   return (
@@ -54,7 +55,7 @@ function TodoItem({
         {onModifyMode ? (
           <input
             placeholder={
-              isBlank ? '투두를 작성해주세요😅' : '여기에 작성해주세요😀'
+              isBlank ? '내용이 비어있습니다.😅' : '여기에 작성해주세요😀'
             }
             ref={inputRef}
           ></input>

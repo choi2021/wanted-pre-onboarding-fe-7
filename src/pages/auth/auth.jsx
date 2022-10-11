@@ -44,35 +44,34 @@ function Auth() {
   };
 
   const exceptionTest = (data, setMessage, process) => {
+    let result = { message: '', success: false };
+    console.log(data);
     if (data.statusCode >= 400) {
-      if (data.statusCode == 401) {
-        setMessage((prev) => {
-          return {
-            ...prev,
-            message: '이메일 혹은 비밀번호를 확인해주세요.',
-            success: false,
-          };
-        });
-        return;
-      }
-      setMessage((prev) => {
-        return {
-          ...prev,
+      if (data.statusCode === 401) {
+        result = {
+          message: '이메일 혹은 비밀번호를 확인해주세요.',
+          success: false,
+        };
+      } else {
+        result = {
           message: data.message,
           success: false,
         };
-      });
-      return;
+      }
     }
     if (process == 'login') {
       navigate('/todo');
       localStorage.setItem('access_token', data.access_token);
     }
+    result = {
+      message: `${'login' ? '로그인' : '회원가입'}에 성공했습니다`,
+      success: true,
+    };
+
     setMessage((prev) => {
       return {
         ...prev,
-        message: `${'login' ? '로그인' : '회원가입'}에 성공했습니다`,
-        success: true,
+        ...result,
       };
     });
   };
