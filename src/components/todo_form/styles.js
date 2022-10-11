@@ -4,7 +4,7 @@ const TodoForm = styled.form`
   width: 100%;
   display: flex;
   align-items: center;
-  margin: 2em 0;
+  margin: 1em 0;
   height: 3rem;
   input {
     height: 100%;
