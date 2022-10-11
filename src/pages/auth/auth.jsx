@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { postSignIn, postSignUp } from '../../apis/auth';
 import AuthForm from '../../components/auth_form/auth_form';
@@ -30,7 +30,7 @@ function Auth() {
     success: false,
   });
 
-  const handleChange = (e, setInfo) => {
+  const handleChange = useCallback((e, setInfo) => {
     const { name, value } = e.currentTarget;
     setInfo((prev) => {
       return {
@@ -42,11 +42,10 @@ function Auth() {
           name === 'password' ? value.length >= 8 : prev.isPasswordValid,
       };
     });
-  };
+  }, []);
 
-  const exceptionTest = (data, setMessage, process) => {
+  const exceptionTest = useCallback((data, setMessage, process) => {
     let result = { message: '', success: false };
-    console.log(data);
     if (data.statusCode >= 400) {
       if (data.statusCode === 401) {
         result = {
@@ -59,15 +58,16 @@ function Auth() {
           success: false,
         };
       }
+    } else {
+      if (process === 'login') {
+        navigate('/todo');
+        localStorage.setItem('access_token', data.access_token);
+      }
+      result = {
+        message: `${process == 'login' ? '로그인' : '회원가입'}에 성공했습니다`,
+        success: true,
+      };
     }
-    if (process === 'login') {
-      navigate('/todo');
-      localStorage.setItem('access_token', data.access_token);
-    }
-    result = {
-      message: `${'login' ? '로그인' : '회원가입'}에 성공했습니다`,
-      success: true,
-    };
 
     setMessage((prev) => {
       return {
@@ -75,9 +75,9 @@ function Auth() {
         ...result,
       };
     });
-  };
+  }, []);
 
-  const handleSubmit = (info, process, setMessage) => {
+  const handleSubmit = useCallback((info, process, setMessage) => {
     const { email, password } = info;
     const obj = { email, password };
     if (process === 'login') {
@@ -89,7 +89,7 @@ function Auth() {
         exceptionTest(data, setMessage, process);
       });
     }
-  };
+  }, []);
 
   return (
     <S.AuthLayout>

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
+import AuthInput from '../auth_input/auth_input';
 import S from './styles';
 
 function AuthForm({
@@ -10,9 +11,9 @@ function AuthForm({
   info,
   setInfo,
 }) {
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     onChange(e, setInfo);
-  };
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,24 +22,16 @@ function AuthForm({
   return (
     <S.AuthFormLayout onSubmit={handleSubmit}>
       <h1>{process === 'login' ? '로그인' : '회원가입'}</h1>
-      <div>
-        <label htmlFor={`${process}_email`}>Email</label>
-        <S.AuthInput
-          name='email'
-          onChange={handleChange}
-          id={`${process}_email`}
-          placeholder='아이디를 입력해주세요'
-        ></S.AuthInput>
-      </div>
-      <div>
-        <label htmlFor={`${process}_password`}>Password</label>
-        <S.AuthInput
-          name='password'
-          onChange={handleChange}
-          id={`${process}_password`}
-          placeholder='비밀번호를 입력해주세요'
-        ></S.AuthInput>
-      </div>
+      <AuthInput
+        onChange={handleChange}
+        process={process}
+        name={'email'}
+      ></AuthInput>
+      <AuthInput
+        onChange={handleChange}
+        process={process}
+        name={'password'}
+      ></AuthInput>
       {message.message ? (
         <S.Message success={message.success}>{message.message}</S.Message>
       ) : null}
@@ -52,4 +45,4 @@ function AuthForm({
   );
 }
 
-export default AuthForm;
+export default memo(AuthForm);

@@ -19,15 +19,6 @@ const AuthFormLayout = styled.form`
   }
 `;
 
-const AuthInput = styled.input`
-  width: 15rem;
-  height: 2rem;
-  border-radius: 1em;
-  margin-bottom: 1em;
-  outline: none;
-  text-align: center;
-`;
-
 const SubmitBtn = styled.button`
   background-color: ${(props) =>
     props.disabled ? 'rgba(0,0,0,0.2)' : 'white'};
@@ -42,5 +33,5 @@ const Message = styled.div`
   margin-bottom: 0.5em;
 `;
 
-const S = { AuthFormLayout, AuthInput, SubmitBtn, Message };
+const S = { AuthFormLayout, SubmitBtn, Message };
 export default S;
