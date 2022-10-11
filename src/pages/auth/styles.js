@@ -4,7 +4,7 @@ const AuthLayout = styled.section`
   max-width: 40rem;
   margin: auto;
   height: 100%;
-  background-color: lightblue;
+  background-color: lightseagreen;
   color: white;
   display: flex;
   flex-direction: column;
