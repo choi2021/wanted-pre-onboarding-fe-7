@@ -45,8 +45,8 @@
 
 
 
-![Pre-Course - Chrome 2022-10-12 01-27-50](../assets/img/README/Pre-Course - Chrome 2022-10-12 01-27-50.gif)
 
+![Pre-Course - Chrome 2022-10-12 01-27-50](https://user-images.githubusercontent.com/80830981/195159981-edf88f98-f14e-4521-b3f3-7b9c29bca077.gif)
 
 
 
@@ -55,7 +55,7 @@
 
 
 
-![Pre-Course - Chrome 2022-10-12 01-35-22](../assets/img/README/Pre-Course - Chrome 2022-10-12 01-35-22.gif)
+![Pre-Course - Chrome 2022-10-12 01-35-22](https://user-images.githubusercontent.com/80830981/195160024-05906d93-78cd-4793-95a0-ddff97480d5c.gif)
 
  
 
@@ -79,7 +79,7 @@
 
  
 
-![Pre-Course - Chrome 2022-10-12 02-13-03](../assets/img/README/Pre-Course - Chrome 2022-10-12 02-13-03.gif)
+![Pre-Course - Chrome 2022-10-12 02-13-03](https://user-images.githubusercontent.com/80830981/195160051-a6c82737-52d5-48a7-8fe8-414284d0d9cc.gif)
 
 
 
@@ -95,7 +95,7 @@
 
 
 
-![Pre-Course - Chrome 2022-10-12 02-26-25](/assets/img/README/Pre-Course - Chrome 2022-10-12 02-26-25.gif)
+![Pre-Course - Chrome 2022-10-12 02-26-25](https://user-images.githubusercontent.com/80830981/195160060-a5a40677-e900-413a-9edb-d1c0b7e48d38.gif)
 
 
 
