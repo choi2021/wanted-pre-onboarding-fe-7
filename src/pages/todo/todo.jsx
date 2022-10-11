@@ -1,35 +1,35 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   deleteTodo,
   getTodos,
   postCreateTodo,
   updateTodos,
 } from '../../apis/todo';
+import TodoForm from '../../components/todo_form/todo_form';
 import TodoItem from '../../components/todo_item/todo_Item';
 import S from './styles';
 
 function Todo() {
-  const inputRef = useRef();
   const [todos, setTodos] = useState([]);
   const [isBlank, setIsBlank] = useState(false);
   useEffect(() => {
     getTodos().then((data) => setTodos(data));
   }, []);
 
-  const onSubmit = (e) => {
+  const onSubmit = (e, ref) => {
     e.preventDefault();
-    const value = inputRef.current.value;
+    const value = ref.current.value;
     if (!value) {
       setIsBlank(true);
       return;
     }
     postCreateTodo(value).then((data) => setTodos((prev) => [...prev, data]));
-    inputRef.current.value = '';
+    ref.current.value = '';
     setIsBlank(false);
   };
 
   const onDelete = (id) => {
-    setTodos((prev) => prev.filter((todo) => todo.id != id));
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
     deleteTodo(id);
   };
 
@@ -48,19 +48,7 @@ function Todo() {
     <S.TodoLayout>
       <header>TO DO</header>
       <S.TodoContent>
-        <S.TodoForm onSubmit={onSubmit}>
-          <input
-            ref={inputRef}
-            type='text'
-            id='todoInput'
-            placeholder={
-              isBlank
-                ? '내용이 비어있습니다.😅'
-                : '오늘의 투두를 작성해주세요😀'
-            }
-          />
-          <button>Add</button>
-        </S.TodoForm>
+        <TodoForm onSubmit={onSubmit} isBlank={isBlank}></TodoForm>
         <S.TodoList>
           {todos.map((item) => (
             <TodoItem

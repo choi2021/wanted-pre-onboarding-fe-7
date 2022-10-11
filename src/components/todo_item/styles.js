@@ -44,6 +44,7 @@ const TodoBtn = styled.button`
   border-radius: 1em;
   padding: 0.2em 0.5em;
   margin-right: 0.2em;
+  cursor: pointer;
 `;
 
 const CompleteBtn = styled(TodoBtn)`

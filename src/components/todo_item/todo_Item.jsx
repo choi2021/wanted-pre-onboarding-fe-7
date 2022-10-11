@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import S from './styles';
 
 function TodoItem({
-  todoItem: { isCompleted, userId, id, todo },
+  todoItem: { isCompleted, id, todo },
   todoItem,
   onDelete,
   onUpdate,
@@ -104,4 +104,4 @@ function TodoItem({
   );
 }
 
-export default TodoItem;
+export default memo(TodoItem);

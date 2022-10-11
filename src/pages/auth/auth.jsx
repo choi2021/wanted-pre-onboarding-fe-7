@@ -36,9 +36,10 @@ function Auth() {
       return {
         ...prev,
         [name]: value,
-        isEmailValid: name == 'email' ? value.includes('@') : prev.isEmailValid,
+        isEmailValid:
+          name === 'email' ? value.includes('@') : prev.isEmailValid,
         isPasswordValid:
-          name == 'password' ? value.length >= 8 : prev.isPasswordValid,
+          name === 'password' ? value.length >= 8 : prev.isPasswordValid,
       };
     });
   };
@@ -59,7 +60,7 @@ function Auth() {
         };
       }
     }
-    if (process == 'login') {
+    if (process === 'login') {
       navigate('/todo');
       localStorage.setItem('access_token', data.access_token);
     }
@@ -79,7 +80,7 @@ function Auth() {
   const handleSubmit = (info, process, setMessage) => {
     const { email, password } = info;
     const obj = { email, password };
-    if (process == 'login') {
+    if (process === 'login') {
       postSignIn(obj).then((data) => {
         exceptionTest(data, setMessage, process);
       });
