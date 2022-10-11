@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { deleteTodo, getTodos, postCreateTodo, updateTodos } from '../../api';
+import {
+  deleteTodo,
+  getTodos,
+  postCreateTodo,
+  updateTodos,
+} from '../../apis/todo';
 import TodoItem from '../../components/todo_item/todo_Item';
 import S from './styles';
 
@@ -8,9 +13,7 @@ function Todo() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    getTodos()
-      .then((res) => res.json())
-      .then((data) => setTodos(data));
+    getTodos().then((data) => setTodos(data));
   }, []);
 
   const onSubmit = (e) => {
@@ -19,9 +22,7 @@ function Todo() {
     if (!value) {
       return;
     }
-    postCreateTodo(value)
-      .then((res) => res.json())
-      .then((data) => setTodos((prev) => [...prev, data]));
+    postCreateTodo(value).then((data) => setTodos((prev) => [...prev, data]));
     inputRef.current.value = '';
   };
 

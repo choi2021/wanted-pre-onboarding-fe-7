@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { postSignIn, postSignUp } from '../../api';
+import { postSignIn, postSignUp } from '../../apis/auth';
 import AuthForm from '../../components/auth_form/auth_form';
 import S from './styles';
 
@@ -45,6 +45,16 @@ function Auth() {
 
   const exceptionTest = (data, setMessage, process) => {
     if (data.statusCode >= 400) {
+      if (data.statusCode == 401) {
+        setMessage((prev) => {
+          return {
+            ...prev,
+            message: '이메일 혹은 비밀번호를 확인해주세요.',
+            success: false,
+          };
+        });
+        return;
+      }
       setMessage((prev) => {
         return {
           ...prev,

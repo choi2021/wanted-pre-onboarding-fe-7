@@ -39,9 +39,9 @@ function AuthForm({
           placeholder='비밀번호를 입력해주세요'
         ></S.AuthInput>
       </div>
-      {message.message && (
+      {message.message ? (
         <S.Message success={message.success}>{message.message}</S.Message>
-      )}
+      ) : null}
       <S.SubmitBtn
         onSubmit={handleSubmit}
         disabled={!(info.isEmailValid && info.isPasswordValid)}

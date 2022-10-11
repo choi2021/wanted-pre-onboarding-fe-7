@@ -10,6 +10,7 @@ function TodoItem({
   const inputRef = useRef();
   const [onModifyMode, setOnModifyMode] = useState(false);
   const [updated, setUpdated] = useState(todoItem);
+  const [isBlank, setIsBlank] = useState(false);
 
   const onClick = (e) => {
     const { name } = e.currentTarget;
@@ -37,7 +38,12 @@ function TodoItem({
   };
 
   const handleSubmit = () => {
-    onUpdate({ ...updated, todo: inputRef.current.value });
+    const todo = inputRef.current.value;
+    if (!todo) {
+      setIsBlank(true);
+      return;
+    }
+    onUpdate({ ...updated, todo });
     inputRef.current.value = ``;
     setOnModifyMode((prev) => !prev);
   };
@@ -45,46 +51,49 @@ function TodoItem({
   return (
     <S.TodoLayout>
       <S.LeftBox>
-        {!onModifyMode && <div>{todo}</div>}
-        {onModifyMode && (
-          <input placeholder='여기에 작성해주세요' ref={inputRef}></input>
+        {onModifyMode ? (
+          <input
+            placeholder={
+              isBlank ? '투두를 작성해주세요😅' : '여기에 작성해주세요😀'
+            }
+            ref={inputRef}
+          ></input>
+        ) : (
+          <div>{todo}</div>
         )}
       </S.LeftBox>
 
       <S.RightBox>
-        {!onModifyMode && (
+        {onModifyMode ? (
           <>
-            <S.TodoBtn>{isCompleted ? 'Completed🙆‍♀️' : 'Not yet 🙅‍♂️'}</S.TodoBtn>
-            <S.TodoBtn name='modify' onClick={onClick}>
-              수정하기
-            </S.TodoBtn>
-          </>
-        )}
-        {onModifyMode && (
-          <div>
-            <S.CompleteBtn
-              name='complete'
-              clicked={updated.isCompleted}
-              onClick={handleCompleteUpdate}
-            >
-              Completed🙆‍♀️
-            </S.CompleteBtn>
-            <S.CompleteBtn
-              name='not yet'
-              clicked={!updated.isCompleted}
-              onClick={handleCompleteUpdate}
-            >
-              Not yet 🙅‍♂️
-            </S.CompleteBtn>
-          </div>
-        )}
-        {onModifyMode && (
-          <>
+            <div>
+              <S.CompleteBtn
+                name='complete'
+                clicked={updated.isCompleted}
+                onClick={handleCompleteUpdate}
+              >
+                Completed🙆‍♀️
+              </S.CompleteBtn>
+              <S.CompleteBtn
+                name='not yet'
+                clicked={!updated.isCompleted}
+                onClick={handleCompleteUpdate}
+              >
+                Not yet 🙅‍♂️
+              </S.CompleteBtn>
+            </div>
             <S.TodoBtn name='cancel' onClick={onClick}>
               취소하기
             </S.TodoBtn>
             <S.TodoBtn name='submit' onClick={handleSubmit}>
               제출하기
+            </S.TodoBtn>
+          </>
+        ) : (
+          <>
+            <S.TodoBtn>{isCompleted ? 'Completed🙆‍♀️' : 'Not yet 🙅‍♂️'}</S.TodoBtn>
+            <S.TodoBtn name='modify' onClick={onClick}>
+              수정하기
             </S.TodoBtn>
           </>
         )}

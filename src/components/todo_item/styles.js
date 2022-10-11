@@ -47,7 +47,7 @@ const TodoBtn = styled.button`
 `;
 
 const CompleteBtn = styled(TodoBtn)`
-  background-color: ${(props) => (props.clicked ? 'coral' : 'lightcoral')};
+  background-color: ${(props) => (props.clicked ? 'tomato' : 'lightcoral')};
 `;
 
 const S = { RightBox, LeftBox, CompleteBtn, TodoBtn, TodoLayout };
