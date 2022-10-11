@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useRef } from 'react';
 import AuthInput from '../auth_input/auth_input';
 import S from './styles';
 
@@ -11,6 +11,7 @@ function AuthForm({
   info,
   setInfo,
 }) {
+  const formRef = useRef();
   const handleChange = useCallback(
     (e) => {
       onChange(e, setInfo);
@@ -21,9 +22,19 @@ function AuthForm({
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(info, process, setMessage);
+    setInfo((prev) => {
+      return {
+        ...prev,
+        email: '',
+        password: '',
+        isEmailValid: false,
+        isPasswordValid: false,
+      };
+    });
+    formRef.current.reset();
   };
   return (
-    <S.AuthFormLayout onSubmit={handleSubmit}>
+    <S.AuthFormLayout ref={formRef} onSubmit={handleSubmit}>
       <h1>{process === 'login' ? '로그인' : '회원가입'}</h1>
       <AuthInput
         onChange={handleChange}
