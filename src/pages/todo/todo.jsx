@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import {
   deleteTodo,
   getTodos,
@@ -28,12 +29,12 @@ function Todo() {
     setIsBlank(false);
   };
 
-  const onDelete = (id) => {
+  const onDelete = useCallback((id) => {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
     deleteTodo(id);
-  };
+  }, []);
 
-  const onUpdate = (todo) => {
+  const onUpdate = useCallback((todo) => {
     setTodos((prev) =>
       prev.map((item) => {
         if (item.id === todo.id) {
@@ -43,7 +44,7 @@ function Todo() {
       })
     );
     updateTodos(todo);
-  };
+  }, []);
   return (
     <S.TodoLayout>
       <header>TO DO</header>
