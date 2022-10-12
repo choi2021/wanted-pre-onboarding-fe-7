@@ -39,12 +39,12 @@ function AuthForm({
       <AuthInput
         onChange={handleChange}
         process={process}
-        name={'email'}
+        name={'Email'}
       ></AuthInput>
       <AuthInput
         onChange={handleChange}
         process={process}
-        name={'password'}
+        name={'Password'}
       ></AuthInput>
       {message.message ? (
         <S.Message success={message.success}>{message.message}</S.Message>
