@@ -23,7 +23,7 @@ function TodoItem({
 
   const handleDelete = useCallback(() => {
     onDelete(id);
-  }, []);
+  }, [id, onDelete]);
 
   const handleCompleteUpdate = useCallback((e) => {
     const { name } = e.currentTarget;
@@ -48,7 +48,7 @@ function TodoItem({
     inputRef.current.value = ``;
     setOnModifyMode((prev) => !prev);
     setIsBlank(false);
-  }, []);
+  }, [onUpdate, updated]);
 
   return (
     <S.TodoLayout>

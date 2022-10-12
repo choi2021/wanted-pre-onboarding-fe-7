@@ -2,15 +2,7 @@ import React, { memo, useCallback, useRef } from 'react';
 import AuthInput from '../auth_input/auth_input';
 import S from './styles';
 
-function AuthForm({
-  process,
-  onSubmit,
-  onChange,
-  message,
-  setMessage,
-  info,
-  setInfo,
-}) {
+function AuthForm({ process, onSubmit, onChange, message, info, setInfo }) {
   const formRef = useRef();
   const handleChange = useCallback(
     (e) => {
@@ -21,16 +13,8 @@ function AuthForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(info, process, setMessage);
-    setInfo((prev) => {
-      return {
-        ...prev,
-        email: '',
-        password: '',
-        isEmailValid: false,
-        isPasswordValid: false,
-      };
-    });
+    onSubmit(info);
+
     formRef.current.reset();
   };
   return (

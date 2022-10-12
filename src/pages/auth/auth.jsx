@@ -44,79 +44,61 @@ function Auth() {
     });
   }, []);
 
-  const exceptionTest = useCallback(
-    (data, setMessage, process) => {
-      let result = { message: '', success: false };
-      if (data.statusCode >= 400) {
-        if (data.statusCode === 401) {
-          result = {
-            message: '이메일 혹은 비밀번호를 확인해주세요.',
-            success: false,
-          };
-        } else {
-          result = {
-            message: data.message,
-            success: false,
-          };
-        }
-      } else {
-        if (process === 'login') {
-          navigate('/todo');
-          localStorage.setItem('access_token', data.access_token);
-        }
-        result = {
-          message: `${
-            process === 'login' ? '로그인' : '회원가입'
-          }에 성공했습니다`,
-          success: true,
-        };
-      }
-
-      setMessage((prev) => {
-        return {
-          ...prev,
-          ...result,
-        };
-      });
+  const handleLoginSubmit = useCallback(
+    (info) => {
+      const { email, password } = info;
+      postSignIn(email, password) //
+        .then((data) => {
+          if ('access_token' in data) {
+            navigate('/todo');
+            localStorage.setItem('access_token', data.access_token);
+          } else {
+            setLoginMessage((prev) => {
+              return {
+                ...prev,
+                ...data,
+              };
+            });
+          }
+        });
     },
     [navigate]
   );
 
-  const handleSubmit = useCallback(
-    (info, process, setMessage) => {
-      const { email, password } = info;
-      const obj = { email, password };
-      if (process === 'login') {
-        postSignIn(obj).then((data) => {
-          exceptionTest(data, setMessage, process);
+  const handleRegisterSubmit = useCallback((info) => {
+    const { email, password } = info;
+    postSignUp(email, password) //
+      .then((data) => {
+        if ('access_token' in data) {
+          data = {
+            message: `회원가입에 성공했습니다`,
+            success: true,
+          };
+        }
+        setRegisterMessage((prev) => {
+          return {
+            ...prev,
+            ...data,
+          };
         });
-      } else {
-        postSignUp(obj).then((data) => {
-          exceptionTest(data, setMessage, process);
-        });
-      }
-    },
-    [exceptionTest]
-  );
+      });
+  }, []);
 
   return (
     <S.AuthLayout>
       <AuthForm
         process={'login'}
-        onSubmit={handleSubmit}
+        onSubmit={handleLoginSubmit}
         onChange={handleChange}
         message={loginMessage}
-        setMessage={setLoginMessage}
         info={loginInfo}
         setInfo={setLoginInfo}
-        exceptionTest={exceptionTest}
       ></AuthForm>
       <AuthForm
         process={'register'}
-        onSubmit={handleSubmit}
+        onSubmit={handleRegisterSubmit}
         onChange={handleChange}
         message={registerMessage}
-        setMessage={setRegisterMessage}
         info={registerInfo}
         setInfo={setRegisterInfo}
       ></AuthForm>
