@@ -4,7 +4,9 @@ import S from './styles';
 function AuthInput({ onChange, process, name }) {
   return (
     <div>
-      <label htmlFor={`${process}_${name}`}>{name}</label>
+      <label htmlFor={`${process}_${name}`}>
+        {name === 'email' ? 'Email' : 'Password'}
+      </label>
       <S.AuthInput
         name={name}
         onChange={onChange}
