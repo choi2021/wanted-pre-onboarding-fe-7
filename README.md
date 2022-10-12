@@ -2,7 +2,7 @@
 
 
 
-사전과제를 netlify를 통해 배포했습니다..(https://pre-course.netlify.app/)
+사전과제를 netlify를 통해 배포했습니다. (https://pre-course.netlify.app/)
 
 
 
