@@ -1,4 +1,5 @@
-import React, { memo, useRef, useState } from 'react';
+import React, { memo, useCallback, useRef, useState } from 'react';
+import TodoBtn from '../todo_btn/todo_btn';
 import S from './styles';
 
 function TodoItem({
@@ -12,19 +13,19 @@ function TodoItem({
   const [updated, setUpdated] = useState(todoItem);
   const [isBlank, setIsBlank] = useState(false);
 
-  const onClick = (e) => {
+  const onClick = useCallback((e) => {
     const { name } = e.currentTarget;
     if (name === 'cancel') {
       inputRef.current.value = ``;
     }
     setOnModifyMode((prev) => !prev);
-  };
+  }, []);
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     onDelete(id);
-  };
+  }, []);
 
-  const handleCompleteUpdate = (e) => {
+  const handleCompleteUpdate = useCallback((e) => {
     const { name } = e.currentTarget;
     if (name === 'complete') {
       setUpdated((prev) => {
@@ -35,9 +36,9 @@ function TodoItem({
         return { ...prev, isCompleted: false };
       });
     }
-  };
+  }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     const todo = inputRef.current.value;
     if (!todo) {
       setIsBlank(true);
@@ -47,7 +48,7 @@ function TodoItem({
     inputRef.current.value = ``;
     setOnModifyMode((prev) => !prev);
     setIsBlank(false);
-  };
+  }, []);
 
   return (
     <S.TodoLayout>
@@ -68,37 +69,39 @@ function TodoItem({
         {onModifyMode ? (
           <>
             <div>
-              <S.CompleteBtn
+              <TodoBtn
                 name='complete'
                 clicked={updated.isCompleted}
                 onClick={handleCompleteUpdate}
-              >
-                Completed🙆‍♀️
-              </S.CompleteBtn>
-              <S.CompleteBtn
+                text='Completed🙆‍♀️'
+              ></TodoBtn>
+              <TodoBtn
                 name='not yet'
                 clicked={!updated.isCompleted}
                 onClick={handleCompleteUpdate}
-              >
-                Not yet 🙅‍♂️
-              </S.CompleteBtn>
+                text='Not yet 🙅‍♂️'
+              ></TodoBtn>
             </div>
-            <S.TodoBtn name='cancel' onClick={onClick}>
-              취소하기
-            </S.TodoBtn>
-            <S.TodoBtn name='submit' onClick={handleSubmit}>
-              제출하기
-            </S.TodoBtn>
+            <TodoBtn name='cancel' onClick={onClick} text='취소하기'></TodoBtn>
+            <TodoBtn
+              name='submit'
+              onClick={handleSubmit}
+              text='제출하기'
+            ></TodoBtn>
           </>
         ) : (
           <>
-            <S.TodoBtn>{isCompleted ? 'Completed🙆‍♀️' : 'Not yet 🙅‍♂️'}</S.TodoBtn>
-            <S.TodoBtn name='modify' onClick={onClick}>
-              수정하기
-            </S.TodoBtn>
+            <TodoBtn
+              text={isCompleted ? 'Completed🙆‍♀️' : 'Not yet 🙅‍♂️'}
+            ></TodoBtn>
+            <TodoBtn
+              name='modify'
+              onClick={onClick}
+              text={'수정하기'}
+            ></TodoBtn>
           </>
         )}
-        <S.TodoBtn onClick={handleDelete}>삭제하기</S.TodoBtn>
+        <TodoBtn onClick={handleDelete} text={'삭제하기'}></TodoBtn>
       </S.RightBox>
     </S.TodoLayout>
   );

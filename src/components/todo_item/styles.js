@@ -38,7 +38,7 @@ const RightBox = styled.div`
 
 const TodoBtn = styled.button`
   height: 100%;
-  background-color: lightcoral;
+  background-color: ${(props) => (props.clicked ? 'tomato' : 'lightcoral')};
   color: white;
   font-size: 0.7rem;
   border-radius: 1em;
@@ -47,9 +47,5 @@ const TodoBtn = styled.button`
   cursor: pointer;
 `;
 
-const CompleteBtn = styled(TodoBtn)`
-  background-color: ${(props) => (props.clicked ? 'tomato' : 'lightcoral')};
-`;
-
-const S = { RightBox, LeftBox, CompleteBtn, TodoBtn, TodoLayout };
+const S = { RightBox, LeftBox, TodoBtn, TodoLayout };
 export default S;
