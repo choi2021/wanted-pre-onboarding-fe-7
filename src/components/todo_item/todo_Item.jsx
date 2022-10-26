@@ -13,7 +13,7 @@ function TodoItem({
   const [updated, setUpdated] = useState(todoItem);
   const [isBlank, setIsBlank] = useState(false);
 
-  const onClick = useCallback((e) => {
+  const handleClick = useCallback((e) => {
     const { name } = e.currentTarget;
     if (name === 'cancel') {
       inputRef.current.value = ``;
@@ -82,7 +82,11 @@ function TodoItem({
                 text='Not yet 🙅‍♂️'
               ></TodoBtn>
             </div>
-            <TodoBtn name='cancel' onClick={onClick} text='취소하기'></TodoBtn>
+            <TodoBtn
+              name='cancel'
+              onClick={handleClick}
+              text='취소하기'
+            ></TodoBtn>
             <TodoBtn
               name='submit'
               onClick={handleSubmit}
@@ -96,7 +100,7 @@ function TodoItem({
             ></TodoBtn>
             <TodoBtn
               name='modify'
-              onClick={onClick}
+              onClick={handleClick}
               text={'수정하기'}
             ></TodoBtn>
           </>

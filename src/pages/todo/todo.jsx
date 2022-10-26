@@ -1,37 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { useCallback } from 'react';
-import {
-  deleteTodo,
-  getTodos,
-  postCreateTodo,
-  updateTodos,
-} from '../../service/todo';
 import TodoForm from '../../components/todo_form/todo_form';
 import TodoItem from '../../components/todo_item/todo_Item';
 import S from './styles';
 
-function Todo() {
+function Todo({ todoService }) {
   const [todos, setTodos] = useState([]);
   const [isBlank, setIsBlank] = useState(false);
   useEffect(() => {
-    getTodos().then((data) => setTodos(data));
+    todoService.get().then((todos) => {
+      setTodos(todos);
+    });
   }, []);
 
-  const handleSubmit = (e, ref) => {
+  const handleSubmit = async (e, ref) => {
     e.preventDefault();
     const value = ref.current.value;
     if (!value) {
       setIsBlank(true);
       return;
     }
-    postCreateTodo(value).then((data) => setTodos((prev) => [...prev, data]));
+    const newTodo = await todoService.create(value);
+    setTodos((prev) => [...prev, newTodo]);
     ref.current.value = '';
     setIsBlank(false);
   };
 
   const handleDelete = useCallback((id) => {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
-    deleteTodo(id);
+    todoService.delete(id);
   }, []);
 
   const handleUpdate = useCallback((todo) => {
@@ -43,7 +40,7 @@ function Todo() {
         return item;
       })
     );
-    updateTodos(todo);
+    todoService.update(todo);
   }, []);
   return (
     <S.TodoLayout>

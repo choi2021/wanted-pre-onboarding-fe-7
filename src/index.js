@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Router from './router';
 import { HttpClient } from './network/http';
 import { AuthService } from './service/auth';
+import { TodoService } from './service/todo';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -15,7 +16,7 @@ const todoService = new TodoService(httpClient);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Router authService={authService} />
+      <Router authService={authService} todoService={todoService} />
     </BrowserRouter>
   </React.StrictMode>
 );
