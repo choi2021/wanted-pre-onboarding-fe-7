@@ -14,7 +14,12 @@ function AuthForm({ process, onSubmit, onChange, message, info, setInfo }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(info);
-
+    setInfo((prev) => ({
+      email: '',
+      password: '',
+      isEmailValid: false,
+      isPasswordValid: false,
+    }));
     formRef.current.reset();
   };
   return (
@@ -24,11 +29,13 @@ function AuthForm({ process, onSubmit, onChange, message, info, setInfo }) {
         onChange={handleChange}
         process={process}
         name={'email'}
+        value={info.email}
       ></AuthInput>
       <AuthInput
         onChange={handleChange}
         process={process}
         name={'password'}
+        value={info.password}
       ></AuthInput>
       {message.message ? (
         <S.Message success={message.success}>{message.message}</S.Message>

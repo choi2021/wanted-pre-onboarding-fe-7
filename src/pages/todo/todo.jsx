@@ -5,7 +5,7 @@ import {
   getTodos,
   postCreateTodo,
   updateTodos,
-} from '../../apis/todo';
+} from '../../service/todo';
 import TodoForm from '../../components/todo_form/todo_form';
 import TodoItem from '../../components/todo_item/todo_Item';
 import S from './styles';
@@ -17,7 +17,7 @@ function Todo() {
     getTodos().then((data) => setTodos(data));
   }, []);
 
-  const onSubmit = (e, ref) => {
+  const handleSubmit = (e, ref) => {
     e.preventDefault();
     const value = ref.current.value;
     if (!value) {
@@ -29,12 +29,12 @@ function Todo() {
     setIsBlank(false);
   };
 
-  const onDelete = useCallback((id) => {
+  const handleDelete = useCallback((id) => {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
     deleteTodo(id);
   }, []);
 
-  const onUpdate = useCallback((todo) => {
+  const handleUpdate = useCallback((todo) => {
     setTodos((prev) =>
       prev.map((item) => {
         if (item.id === todo.id) {
@@ -49,14 +49,14 @@ function Todo() {
     <S.TodoLayout>
       <header>TO DO</header>
       <S.TodoContent>
-        <TodoForm onSubmit={onSubmit} isBlank={isBlank}></TodoForm>
+        <TodoForm onSubmit={handleSubmit} isBlank={isBlank}></TodoForm>
         <S.TodoList>
           {todos.map((item) => (
             <TodoItem
               key={item.id}
               todoItem={item}
-              onUpdate={onUpdate}
-              onDelete={onDelete}
+              onUpdate={handleUpdate}
+              onDelete={handleDelete}
             ></TodoItem>
           ))}
         </S.TodoList>
