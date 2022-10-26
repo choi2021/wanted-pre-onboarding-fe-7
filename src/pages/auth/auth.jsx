@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { postSignIn, postSignUp } from '../../apis/auth';
 import AuthForm from '../../components/auth_form/auth_form';
 import S from './styles';
 
-function Auth() {
+function Auth({ authService }) {
   const navigate = useNavigate('/');
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -45,43 +44,40 @@ function Auth() {
   }, []);
 
   const handleLoginSubmit = useCallback(
-    (info) => {
+    async (info) => {
       const { email, password } = info;
-      postSignIn(email, password) //
-        .then((data) => {
-          if ('access_token' in data) {
-            navigate('/todo');
-            localStorage.setItem('access_token', data.access_token);
-          } else {
-            setLoginMessage((prev) => {
-              return {
-                ...prev,
-                ...data,
-              };
-            });
-          }
+      const response = await authService.postSignIn(email, password);
+      if ('access_token' in response) {
+        navigate('/todo');
+        localStorage.setItem('access_token', response.access_token);
+      } else {
+        setLoginMessage((prev) => {
+          return {
+            ...prev,
+            ...response,
+          };
         });
+      }
     },
     [navigate]
   );
 
-  const handleRegisterSubmit = useCallback((info) => {
+  const handleRegisterSubmit = useCallback(async (info) => {
     const { email, password } = info;
-    postSignUp(email, password) //
-      .then((data) => {
-        if ('access_token' in data) {
-          data = {
-            message: `회원가입에 성공했습니다`,
-            success: true,
-          };
-        }
-        setRegisterMessage((prev) => {
-          return {
-            ...prev,
-            ...data,
-          };
-        });
-      });
+    const response = await authService.postSignUp(email, password);
+    let message = response;
+    if ('access_token' in response) {
+      message = {
+        message: `회원가입에 성공했습니다`,
+        success: true,
+      };
+    }
+    setRegisterMessage((prev) => {
+      return {
+        ...prev,
+        ...message,
+      };
+    });
   }, []);
 
   return (

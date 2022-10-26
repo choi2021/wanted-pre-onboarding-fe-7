@@ -14,15 +14,7 @@ function AuthForm({ process, onSubmit, onChange, message, info, setInfo }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(info);
-    setInfo((prev) => {
-      return {
-        ...prev,
-        email: '',
-        password: '',
-        isEmailValid: false,
-        isPasswordValid: false,
-      };
-    });
+
     formRef.current.reset();
   };
   return (

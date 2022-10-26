@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Todo from './pages/todo/todo';
 import Auth from './pages/auth/auth';
 
-function Router() {
+function Router({ authService }) {
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -15,7 +15,7 @@ function Router() {
   }, [navigate]);
   return (
     <Routes>
-      <Route path='/' element={<Auth></Auth>}></Route>
+      <Route path='/' element={<Auth authService={authService}></Auth>}></Route>
       <Route path='/todo' element={<Todo></Todo>}></Route>
     </Routes>
   );
